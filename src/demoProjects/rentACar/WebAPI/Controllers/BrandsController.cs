@@ -1,7 +1,13 @@
 ﻿using Application.Features.Brands.Commands.CreateBrand;
+using Application.Features.Brands.Dtos;
+using Application.Features.Brands.Models;
+using Application.Features.Brands.Queries.GetByIdBrand;
+using Application.Features.Brands.Queries.GetListBrand;
 using Application.Features.someFeature.Dtos;
+using Core.Application.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace WebAPI.Controllers
 {
@@ -16,5 +22,25 @@ namespace WebAPI.Controllers
             CreatedBrandDto result = await Mediator.Send(createBrandCommand);
             return Created("", result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
+        {
+          GetListBrandQuery getListBrandQuery = new() { PageRequest =pageRequest};
+            BrandListModel result = await Mediator.Send(getListBrandQuery);
+            return Ok(result);
+
+        }
+
+        [HttpGet("{Id}")]
+
+        public async Task<IActionResult> GetById([FromRoute] GetByIdBrandQuery getByIdBrandQuery)
+        {
+           BrandGetByIdDto brandGetByIdDto= await Mediator.Send(getByIdBrandQuery);
+            return Ok(brandGetByIdDto);
+        }
+
+
+
     }
 }
