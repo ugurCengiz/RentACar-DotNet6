@@ -33,9 +33,9 @@ namespace Application.Features.Brands.Queries.GetListBrand
             public async Task<BrandListModel> Handle (GetListBrandQuery request,CancellationToken cancellationToken)
             {
                IPaginate<Brand> brands = await  _brandRepository.GetListAsync(index:request.PageRequest.Page,size:request.PageRequest.PageSize);
-               BrandListModel mappoerBrandListModel=_mapper.Map<BrandListModel>(brands);
+               BrandListModel mappedBrandListModel=_mapper.Map<BrandListModel>(brands);
 
-                return mappoerBrandListModel;
+                return mappedBrandListModel;
             }
         }
     }
